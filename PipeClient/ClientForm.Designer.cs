@@ -39,6 +39,7 @@
             this.btn_Client_Send = new System.Windows.Forms.Button();
             this.txt_Client_Message = new System.Windows.Forms.TextBox();
             this.m_timerClientReadFromPipe = new System.Windows.Forms.Timer(this.components);
+            this.timer_TestForEnd = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -169,6 +170,11 @@
             this.m_timerClientReadFromPipe.Interval = 5;
             this.m_timerClientReadFromPipe.Tick += new System.EventHandler(this.m_timerClientReadFromPipe_Tick);
             // 
+            // timer_TestForEnd
+            // 
+            this.timer_TestForEnd.Interval = 5;
+            this.timer_TestForEnd.Tick += new System.EventHandler(this.timer_TestForEnd_Tick);
+            // 
             // ClientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -204,6 +210,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btn_Client_Send;
         private System.Windows.Forms.Timer m_timerClientReadFromPipe;
+        private System.Windows.Forms.Timer timer_TestForEnd;
     }
 }
 

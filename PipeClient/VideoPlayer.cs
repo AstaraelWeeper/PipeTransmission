@@ -24,5 +24,15 @@ namespace PipeClient
             axVLCPlugin21.playlist.add("File:///" + path, null, null);
             axVLCPlugin21.playlist.playItem(0);
         }
+
+        public bool testForEnd()
+        {
+            if (axVLCPlugin21.input.state == 6) //6 = ended
+            {
+                return true;
+            }
+            else
+                return false;
+        }
     }
 }

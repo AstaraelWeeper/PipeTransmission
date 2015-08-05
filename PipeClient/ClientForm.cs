@@ -76,10 +76,11 @@ namespace PipeClient
                                 }
                             }
                         }
+
+                        //handle the JSON message, do what action it requires, then call writemessagetoserver with your return confirmation message
+                        txt_Client_Received.AppendText(messageIn);
+                        txt_Client_Received.AppendText(Environment.NewLine);
                     }
-                    //handle the JSON message, do what action it requires, then call writemessagetoserver with your return confirmation message
-                    txt_Client_Received.AppendText(messageIn);
-                    txt_Client_Received.AppendText(Environment.NewLine);
                 } 
             }
             catch (Exception ex)
@@ -143,6 +144,20 @@ namespace PipeClient
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void timer_TestForEnd_Tick(object sender, EventArgs e)
+        {
+            if(video1 != null)
+            {
+                bool ended = false;
+                ended = video1.testForEnd();
+                if (ended)
+                {
+                    string message = DateTime.Now.ToString() + "video ended";
+                    this.Client.Write(message);
+                }
             }
         }
 
