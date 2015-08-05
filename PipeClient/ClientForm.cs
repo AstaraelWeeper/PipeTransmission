@@ -40,7 +40,7 @@ namespace PipeClient
 
         void Client_OnReceivedMessage(object sender, ReceivedMessageEventArgs e)
         {
-            m_fromServerQueue.Enqueue(e.Message);
+            m_fromServerQueue.Enqueue(e.Message); 
         }
 
         private void StopClient()
@@ -57,14 +57,24 @@ namespace PipeClient
             {
                 if (m_fromServerQueue.Count > 0)
                 {
-                    string messageIn = m_fromServerQueue.Dequeue();
-                    if (messageIn.Contains("video"))
+                    for (int i = 0; i < m_fromServerQueue.Count; i++)
                     {
-                        string[] messageParts = messageIn.Replace("\r\n","").Split('='); //
-                        
-                        if (File.Exists(messageParts[1]))
+                        string messageIn = m_fromServerQueue.Dequeue();
+                        if (messageIn.Contains("video"))
                         {
-                            InitialisePlayers(messageParts[1]);
+                            string[] messageParts = messageIn.Replace("\r\n", "").Split('='); //
+
+                            if (File.Exists(messageParts[1]))
+                            {
+                                if (video1 != null)
+                                {
+                                    InitialisePlayers(messageParts[1]);
+                                }
+                                else
+                                {
+                                    newVideo(messageParts[1]);
+                                }
+                            }
                         }
                     }
                     //handle the JSON message, do what action it requires, then call writemessagetoserver with your return confirmation message
@@ -99,6 +109,13 @@ namespace PipeClient
             video1.Show();
             video2.Show();
             video3.Show();
+        }
+
+        private void newVideo(string path)
+        {
+            video1.newVideo(path);
+            video2.newVideo(path);
+            video3.newVideo(path);
         }
         private void getScreenSize()
         {
