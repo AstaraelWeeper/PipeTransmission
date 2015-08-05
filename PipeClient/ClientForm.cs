@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace PipeClient
 {
@@ -14,6 +15,7 @@ namespace PipeClient
         private const string NAME_OF_PIPE = "NamedPipeTest";
         public NamedPipeClient Client { get; set; }
         private Queue<string> m_fromServerQueue = new Queue<string>();
+        VideoPlayer video1;
 
         public ClientForm()
         {
@@ -41,15 +43,27 @@ namespace PipeClient
             }
         }
 
-        private void m_timerClientReadFromPipe_Tick(object sender, EventArgs e)
+        private void m_timerClientReadFromPipe_Tick(object sender, EventArgs e) //polling the 
         {
             try
             {
                 if (m_fromServerQueue.Count > 0)
                 {
-                    txt_Client_Received.AppendText(m_fromServerQueue.Dequeue());
+                    string messageIn = m_fromServerQueue.Dequeue();
+                    if (messageIn.Contains("video"))
+                    {
+                        string[] messageParts = messageIn.Replace("\r\n","").Split('='); //
+                        
+                        if (File.Exists(messageParts[1]))
+                        {
+                            video1 = new VideoPlayer(messageParts[1]);
+                            video1.Show();
+                        }
+                    }
+                    //handle the JSON message, do what action it requires, then call writemessagetoserver with your return confirmation message
+                    txt_Client_Received.AppendText(messageIn);
                     txt_Client_Received.AppendText(Environment.NewLine);
-                }
+                } 
             }
             catch (Exception ex)
             {

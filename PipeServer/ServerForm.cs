@@ -50,7 +50,7 @@ namespace PipeServer
                 string value = m_fromClientQueue.Dequeue();
 
                 txt_Server_Received.AppendText(value);
-                txt_Server_Received.AppendText(Environment.NewLine);
+                //txt_Server_Received.AppendText(Environment.NewLine);
             }
         }
 

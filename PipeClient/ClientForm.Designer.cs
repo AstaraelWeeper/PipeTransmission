@@ -166,7 +166,7 @@
             // m_timerClientReadFromPipe
             // 
             this.m_timerClientReadFromPipe.Enabled = true;
-            this.m_timerClientReadFromPipe.Interval = 500;
+            this.m_timerClientReadFromPipe.Interval = 200;
             this.m_timerClientReadFromPipe.Tick += new System.EventHandler(this.m_timerClientReadFromPipe_Tick);
             // 
             // ClientForm
