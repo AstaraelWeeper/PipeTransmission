@@ -172,6 +172,7 @@
             // 
             // timer_TestForEnd
             // 
+            this.timer_TestForEnd.Enabled = true;
             this.timer_TestForEnd.Interval = 5;
             this.timer_TestForEnd.Tick += new System.EventHandler(this.timer_TestForEnd_Tick);
             // 

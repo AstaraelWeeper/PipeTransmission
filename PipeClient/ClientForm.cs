@@ -66,7 +66,7 @@ namespace PipeClient
 
                             if (File.Exists(messageParts[1]))
                             {
-                                if (video1 != null)
+                                if (video1 == null)
                                 {
                                     InitialisePlayers(messageParts[1]);
                                 }
@@ -92,6 +92,7 @@ namespace PipeClient
 
         private void InitialisePlayers(string path)
         {
+            timer_TestForEnd.Start();
             video1 = new VideoPlayer(path);
             video2 = new VideoPlayer(path);
             video3 = new VideoPlayer(path);
@@ -114,6 +115,7 @@ namespace PipeClient
 
         private void newVideo(string path)
         {
+            timer_TestForEnd.Start();
             video1.newVideo(path);
             video2.newVideo(path);
             video3.newVideo(path);
@@ -155,8 +157,11 @@ namespace PipeClient
                 ended = video1.testForEnd();
                 if (ended)
                 {
-                    string message = DateTime.Now.ToString() + "video ended";
+                    string message = DateTime.Now.ToString() + " video ended";
                     this.Client.Write(message);
+                    txt_Client_Sent.AppendText(message);
+                    txt_Client_Sent.AppendText(Environment.NewLine);
+                    timer_TestForEnd.Stop();
                 }
             }
         }
