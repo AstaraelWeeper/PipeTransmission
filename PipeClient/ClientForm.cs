@@ -16,10 +16,18 @@ namespace PipeClient
         public NamedPipeClient Client { get; set; }
         private Queue<string> m_fromServerQueue = new Queue<string>();
         VideoPlayer video1;
+        VideoPlayer video2;
+        VideoPlayer video3;
+        static int resolutionWidth = 1920;
+        static int resolutionHight = 1080;
+        int vid1X = 0;
+        int vid2X = 0;
+        int vid3X = 0;
 
         public ClientForm()
         {
             InitializeComponent();
+            getScreenSize();
             StartClient();
         }
 
@@ -56,8 +64,7 @@ namespace PipeClient
                         
                         if (File.Exists(messageParts[1]))
                         {
-                            video1 = new VideoPlayer(messageParts[1]);
-                            video1.Show();
+                            InitialisePlayers(messageParts[1]);
                         }
                     }
                     //handle the JSON message, do what action it requires, then call writemessagetoserver with your return confirmation message
@@ -70,6 +77,36 @@ namespace PipeClient
                 m_timerClientReadFromPipe.Enabled = false;
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void InitialisePlayers(string path)
+        {
+            video1 = new VideoPlayer(path);
+            video2 = new VideoPlayer(path);
+            video3 = new VideoPlayer(path);
+            video1.Width = resolutionWidth;
+            video1.Height = resolutionHight;
+            video2.Width = resolutionWidth;
+            video2.Height = resolutionHight;
+            video3.Width = resolutionWidth;
+            video3.Height = resolutionHight;
+            video1.StartPosition = FormStartPosition.Manual;
+            video1.Location = new Point(vid1X, 0);
+            video2.StartPosition = FormStartPosition.Manual;
+            video2.Location = new Point(vid2X, 0);
+            video3.StartPosition = FormStartPosition.Manual;
+            video3.Location = new Point(vid3X, 0);
+            video1.Show();
+            video2.Show();
+            video3.Show();
+        }
+        private void getScreenSize()
+        {
+            Screen thisScreen = Screen.PrimaryScreen;
+            resolutionHight = thisScreen.WorkingArea.Height;
+            resolutionWidth = thisScreen.WorkingArea.Width;
+            vid2X = resolutionWidth;
+            vid3X = 2 * resolutionWidth;
         }
 
         private void WriteMessageToServer()
